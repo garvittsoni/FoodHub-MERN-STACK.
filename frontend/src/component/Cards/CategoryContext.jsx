@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useState, useMemo } from "react";
-import axios from "axios";
 import api from "../../api";
 
 export const CategoryContext = createContext();
@@ -12,28 +11,30 @@ export const CategoryProvider = ({ children }) => {
   // 🔐 TOKEN
   const [token, setToken] = useState(localStorage.getItem("token") || "");
 
-  // 🛒 CART (BACKEND)
+  // 🛒 CART
   const [cart, setCart] = useState({});
-
-  const url = api.defaults.baseURL;
 
   /* ================= FOOD ================= */
   useEffect(() => {
     const fetchFood = async () => {
       try {
-        const res = await axios.get(`${url}/api/food/list-food`);
-        if (res.data.success) setFoodList(res.data.data);
+        const res = await api.get("/api/food/list-food");
+        if (res.data.success) {
+          setFoodList(res.data.data);
+        }
       } catch (err) {
         console.error("Food fetch error:", err);
       }
     };
+
     fetchFood();
   }, []);
 
   /* ================= CART ================= */
+
   const fetchCart = async (authToken) => {
     try {
-      const res = await axios.get(`${url}/api/cart/get`, {
+      const res = await api.get("/api/cart/get", {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
@@ -43,7 +44,9 @@ export const CategoryProvider = ({ children }) => {
         setCart(res.data.cartData || {});
       }
     } catch (err) {
-      console.log("Fetch cart error:", err);
+      if (err.response?.status !== 401) {
+        console.log("Fetch cart error:", err);
+      }
     }
   };
 
@@ -55,22 +58,23 @@ export const CategoryProvider = ({ children }) => {
     }
   }, [token]);
 
-  // 🔁 LISTEN LOGIN / LOGOUT CHANGES
-useEffect(() => {
-  const syncToken = () => {
-    const storedToken = localStorage.getItem("token") || "";
-    setToken(storedToken);
-  };
+  /* ================= AUTH LISTENER ================= */
 
-  window.addEventListener("authChange", syncToken);
+  useEffect(() => {
+    const syncToken = () => {
+      const storedToken = localStorage.getItem("token") || "";
+      setToken(storedToken);
+    };
 
-  return () => {
-    window.removeEventListener("authChange", syncToken);
-  };
-}, []);
+    window.addEventListener("authChange", syncToken);
 
+    return () => {
+      window.removeEventListener("authChange", syncToken);
+    };
+  }, []);
 
   /* ================= CART ACTIONS ================= */
+
   const increaseQty = async (id) => {
     if (!token) {
       alert("Please login to add items to cart");
@@ -78,8 +82,8 @@ useEffect(() => {
     }
 
     try {
-      await axios.post(
-        `${url}/api/cart/add`,
+      await api.post(
+        "/api/cart/add",
         { itemId: id },
         {
           headers: {
@@ -87,6 +91,7 @@ useEffect(() => {
           },
         }
       );
+
       fetchCart(token);
     } catch (err) {
       console.log("Add cart error:", err);
@@ -97,8 +102,8 @@ useEffect(() => {
     if (!token) return;
 
     try {
-      await axios.post(
-        `${url}/api/cart/remove`,
+      await api.post(
+        "/api/cart/remove",
         { itemId: id },
         {
           headers: {
@@ -106,13 +111,13 @@ useEffect(() => {
           },
         }
       );
+
       fetchCart(token);
     } catch (err) {
       console.log("Remove cart error:", err);
     }
   };
 
-  // ✅ THIS WAS MISSING
   const toggleCart = async (id) => {
     if (cart[id]) {
       await decreaseQty(id);
@@ -122,6 +127,7 @@ useEffect(() => {
   };
 
   /* ================= FILTER ================= */
+
   const filtered = useMemo(() => {
     return food_list.filter((item) => {
       const searchLower = searchQuery.toLowerCase().trim();
@@ -151,7 +157,6 @@ useEffect(() => {
         toggleCart,
         increaseQty,
         decreaseQty,
-        url,
         token,
         setToken,
       }}

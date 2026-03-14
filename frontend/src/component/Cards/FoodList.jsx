@@ -25,7 +25,7 @@ export default function FoodList() {
           >
             <div className="overflow-hidden">
               <img
-                src={`${url}/images/${item.image}`}
+                src={item.image}
                 alt={item.name}
                 className="
                   h-90 md:h-60 sm:h-50 w-full object-cover

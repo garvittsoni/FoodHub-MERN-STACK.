@@ -66,7 +66,7 @@ export default function Cart() {
                       {/* Image */}
                       <div className="shrink-0">
                         <img
-                          src={`${url}/images/${item.image}`}
+                          src={item.image}
                           alt={item.name}
                           className="w-20 h-20 md:w-16 md:h-16 rounded-lg object-cover bg-gray-100 dark:bg-gray-800 border dark:border-gray-700"
                         />

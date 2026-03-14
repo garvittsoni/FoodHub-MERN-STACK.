@@ -87,7 +87,7 @@
                   <tr key={food._id} className="border-t dark:border-gray-700">
                     <td className="p-3">
                       <img
-                        src={`/api/images/${food.image}`}
+                        src={food.image}
                         className="w-14 h-14 object-cover rounded-lg"
                       />
                     </td>
