@@ -43,10 +43,13 @@ export default function AddItem() {
       formData.append("price", form.price);
       formData.append("image", form.image);
 
-      const res = await api.post("/api/food/add-food", formData);
+      const res = await api.post("/api/food/add-food", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       if (res.data.success) {
-        // alert("✅ Food Item Added");
         setForm({
           name: "",
           description: "",
@@ -71,13 +74,8 @@ export default function AddItem() {
 
   return (
     <div className="max-w-3xl w-full relative">
-
-      {/* ERROR TOAST */}
       {error && (
-        <div className="fixed top-20 right-4 sm:right-6 z-50 w-[90%] sm:w-80
-          bg-white dark:bg-[#0E1116] border dark:border-gray-700
-          rounded-xl shadow-lg">
-
+        <div className="fixed top-20 right-4 sm:right-6 z-50 w-[90%] sm:w-80 bg-white dark:bg-[#0E1116] border dark:border-gray-700 rounded-xl shadow-lg">
           <div className="flex gap-3 p-4 text-sm">
             <XCircle className="text-orange-500" />
             <span className="flex-1 text-gray-700 dark:text-gray-200">
@@ -90,36 +88,21 @@ export default function AddItem() {
               ✕
             </button>
           </div>
-
           <div className="h-1 bg-orange-500 rounded-b-xl"></div>
         </div>
       )}
 
-      {/* CARD */}
-      <div className="
-        bg-white dark:bg-[#0E1116]
-        border dark:border-gray-700
-        rounded-2xl p-6 sm:p-8 space-y-6
-      ">
+      <div className="bg-white dark:bg-[#0E1116] border dark:border-gray-700 rounded-2xl p-6 sm:p-8 space-y-6">
         <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
           Add New Product
         </h2>
 
-        {/* IMAGE UPLOAD */}
         <div>
           <p className="text-sm mb-2 text-gray-600 dark:text-gray-300">
             Upload Image
           </p>
 
-          <label
-            className="
-              w-36 h-28 border-2 border-dashed rounded-xl
-              flex flex-col items-center justify-center
-              text-gray-400 cursor-pointer
-              hover:border-orange-500
-              overflow-hidden
-            "
-          >
+          <label className="w-36 h-28 border-2 border-dashed rounded-xl flex flex-col items-center justify-center text-gray-400 cursor-pointer hover:border-orange-500 overflow-hidden">
             {form.preview ? (
               <img
                 src={form.preview}
@@ -142,7 +125,6 @@ export default function AddItem() {
           </label>
         </div>
 
-        {/* PRODUCT NAME */}
         <div>
           <label className="text-sm text-gray-700 dark:text-gray-300">
             Product name
@@ -156,7 +138,6 @@ export default function AddItem() {
           />
         </div>
 
-        {/* DESCRIPTION */}
         <div>
           <label className="text-sm text-gray-700 dark:text-gray-300">
             Product description
@@ -171,7 +152,6 @@ export default function AddItem() {
           />
         </div>
 
-        {/* CATEGORY + PRICE */}
         <div className="flex flex-col sm:flex-row gap-4">
           <div className="w-full sm:w-48">
             <label className="text-sm text-gray-700 dark:text-gray-300">
@@ -209,14 +189,9 @@ export default function AddItem() {
           </div>
         </div>
 
-        {/* BUTTON */}
         <button
           onClick={handleSubmit}
-          className="
-            bg-orange-500 hover:bg-orange-600
-            text-white px-10 py-2 rounded-lg
-            text-sm font-semibold transition
-          "
+          className="bg-orange-500 hover:bg-orange-600 text-white px-10 py-2 rounded-lg text-sm font-semibold transition"
         >
           ADD ITEM
         </button>
