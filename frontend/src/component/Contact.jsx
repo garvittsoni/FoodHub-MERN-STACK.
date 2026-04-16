@@ -24,7 +24,7 @@ const Contact = () => {
             <div className="flex gap-4 mt-6">
               {/* GitHub */}
               <a
-                href="https://github.com/iamyashvendra"
+                // href="https://github.com/iamyashvendra"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub"
@@ -35,7 +35,7 @@ const Contact = () => {
 
               {/* Instagram */}
               <a
-                href="https://www.instagram.com/iamyashvendra"
+                // href="https://www.instagram.com/iamyashvendra"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
@@ -46,7 +46,7 @@ const Contact = () => {
 
               {/* All Links / Linktree */}
               <a
-                href="https://linktr.ee/iamyashvendra?utm_source=linktree_profile_share&ltsid=88338325-f487-4978-a003-06f8676f7aae"
+                // href="https://linktr.ee/iamyashvendra?utm_source=linktree_profile_share&ltsid=88338325-f487-4978-a003-06f8676f7aae"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="All Links"
@@ -87,7 +87,7 @@ const Contact = () => {
 
             <p className="text-gray-400">📞 +1 212-456-980</p>
             <p className="text-gray-400 mt-2">
-              📧 yashvender720@gmail.com
+              📧 garvitfr@gmail.com
             </p>
           </div>
         </div>
@@ -99,7 +99,7 @@ const Contact = () => {
         <p className="text-center text-gray-500 text-sm mt-6 leading-relaxed">
           © 2025 FoodHub.com — All Rights Reserved <br />
           <span className="text-gray-400">
-            Yashvendra Singh Jadaun
+            Garvitt soni
           </span>
         </p>
       </div>

@@ -14,6 +14,9 @@ export const CategoryProvider = ({ children }) => {
   // 🛒 CART
   const [cart, setCart] = useState({});
 
+  // ✅ BACKEND URL (IMPORTANT)
+  const url = "http://localhost:4000";
+
   /* ================= FOOD ================= */
   useEffect(() => {
     const fetchFood = async () => {
@@ -58,7 +61,7 @@ export const CategoryProvider = ({ children }) => {
     }
   }, [token]);
 
-  /* ================= AUTH LISTENER ================= */
+  /* ================= AUTH ================= */
 
   useEffect(() => {
     const syncToken = () => {
@@ -77,7 +80,7 @@ export const CategoryProvider = ({ children }) => {
 
   const increaseQty = async (id) => {
     if (!token) {
-      alert("Please login to add items to cart");
+      alert("Please login first");
       return;
     }
 
@@ -159,6 +162,7 @@ export const CategoryProvider = ({ children }) => {
         decreaseQty,
         token,
         setToken,
+        url, // ✅ FIXED
       }}
     >
       {children}

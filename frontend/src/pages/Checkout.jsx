@@ -1,5 +1,6 @@
     import { useState } from "react";
     import { useCategory } from "../component/Cards/CategoryContext";
+    import api from "../api";
 
     export default function Checkout() {
       const { cart, food_list, token, url } = useCategory();
@@ -32,42 +33,51 @@
 
       // ✅ PLACE ORDER (FETCH)
       const placeOrder = async () => {
-      try {
-        const items = cartItems.map((item) => ({
-          name: item.name,
-          price: item.price,
-          quantity: cart[item._id],
-        }));
+  try {
+    const items = cartItems.map((item) => ({
+      name: item.name,
+      price: item.price,
+      quantity: cart[item._id],
+    }));
 
-        const orderData = {
-          address: data,
-          items,
-          amount: total,
-          payment: false,
-        };
-
-        const res = await fetch(`${url}/api/order/placeorder`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, // 👈 capital A
-          },
-          body: JSON.stringify(orderData),
-        });
-
-        const result = await res.json();
-        console.log("ORDER RESPONSE:", result);
-
-        if (result.success) {
-          window.location.replace(result.url);
-        } else {
-          alert(result.message || "Error placing order");
-        }
-      } catch (error) {
-        console.log("PLACE ORDER ERROR:", error);
-        alert("Something went wrong");
-      }
+    const orderData = {
+      address: data,
+      items,
+      amount: total,
+      payment: false,
     };
+
+    // ✅ axios use karo instead of fetch
+    const res = await api.post(
+      "/api/order/placeorder",
+      orderData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const result = res.data;
+    console.log("ORDER RESPONSE:", result);
+
+    if (result.success) {
+      window.location.replace(result.url);
+    } else {
+      alert(result.message || "Error placing order");
+    }
+
+  } catch (error) {
+    console.log("PLACE ORDER ERROR:", error);
+
+    // 🔥 better error handling
+    if (error.response) {
+      alert(error.response.data?.message || "Server error");
+    } else {
+      alert("Network error");
+    }
+  }
+};
 
       return (
         <div
