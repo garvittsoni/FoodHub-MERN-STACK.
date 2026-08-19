@@ -24,7 +24,7 @@ const Contact = () => {
             <div className="flex gap-4 mt-6">
               {/* GitHub */}
               <a
-                // href="https://github.com/iamyashvendra"
+                href="https://github.com/garvittsoni"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub"
@@ -35,7 +35,7 @@ const Contact = () => {
 
               {/* Instagram */}
               <a
-                // href="https://www.instagram.com/iamyashvendra"
+                href="https://www.instagram.com/garvittfr/?__pwa=1"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
